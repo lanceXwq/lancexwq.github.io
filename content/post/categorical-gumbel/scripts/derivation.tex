@@ -1,0 +1,81 @@
+\documentclass{book}[12pt]
+\usepackage{fullpage}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\begin{document}
+\chapter*{Gumbel-Max trick derivation}
+
+\section*{Notations}
+\begin{itemize}
+    \item $P\left(A\right):$ The probability of event $A$.
+    \item $P\left(A,B\right):$ The probability of events $A$ and $B$ both occurring.
+    \item $P\left(A\middle|B\right):$ The conditional probability of event $A$ given the occurrence of event $B$.
+    \item $f(x)=\exp\left[-\left(x+\exp\left(-x\right)\right)\right]$: The probability density function of \href{https://en.wikipedia.org/wiki/Gumbel_distribution#Standard_Gumbel_distribution}{the standard Gumbel distribution}.
+    \item $F(x)=\exp\left[-\exp\left(-x\right)\right]$: The cumulative distribution function of the standard Gumbel distribution.
+    \item $p_1,p_2,\dots,p_N$: The unnormalized event probabilities of the target categorical distribution, assuming there are $N$ categories.
+    \item $x_1,x_2,\dots,x_N$: Independent and identically distributed random variables from the standard Gumbel distribution.
+    \item $\argmax_m\left(x_m+\ln p_m\right)$: A function that finds the index $m$ which maximizes $x_n+\ln p_n$.
+\end{itemize}
+
+\section*{Derivation}
+Consider calculating the probability of $n$ being the index that maximizes $x_n+\ln p_n$, {\it i.e.}, $P\left(n=\argmax_m\left(x_m+\ln p_m\right)\right)$. In order to do so, we first express it in terms of a marginal probability:
+\begin{align}
+     & P\left(n=\argmax_m\left(x_m+\ln p_m\right)\right)\nonumber                                                                                                                                                   \\
+     & =\int_{-\infty}^\infty\mathrm{d}x_1 \int_{-\infty}^\infty\mathrm{d}x_2\cdots \int_{-\infty}^\infty\mathrm{d}x_N P\left(n=\argmax_m\left(x_m+\ln p_m\right),x_1,x_2,\dots,x_N\right).\label{eq:full_integral}
+\end{align}
+The integrand in \cref{eq:full_integral} can be expanded using conditional probability
+\begin{align}
+     & P\left(n=\argmax_m\left(x_m+\ln p_m\right),x_1,x_2,\dots,x_N\right)\nonumber                                                        \\
+     & =P\left(n=\argmax_m\left(x_m+\ln p_m\right)\middle|x_1,x_2,\dots,x_N\right)P\left(x_1,x_2,\dots,x_N\right)\label{eq:conditional_p}.
+\end{align}
+As $x_1,x_2,\dots,x_N$ are independent of each other, both terms on the right-hand side of \cref{eq:conditional_p} can be further expanded as products of probabilities:
+\begin{align}
+    P\left(n=\argmax_m\left(x_m+\ln p_m\right)\middle|x_1,x_2,\dots,x_N\right) & =\prod_{m=1}^N P\left(x_n+\ln p_n\geq x_m+\ln p_m\middle|x_n,x_m\right),\label{eq:expansion1} \\
+    P\left(x_1,x_2,\dots,x_N\right)                                            & =\prod_{m=1}^N P\left(x_m\right).\label{eq:expansion2}
+\end{align}
+Plugging \crefrange{eq:conditional_p}{eq:expansion2} into \cref{eq:full_integral} yields
+\begin{align}
+     & P\left(n=\argmax_m\left(x_m+\ln p_m\right)\right)\nonumber                                                           \\
+     & =\int_{-\infty}^\infty\mathrm{d}x_n P\left(x_n+\ln p_n\geq x_n+\ln p_n\middle|x_n\right) P\left(x_n\right) \nonumber \\
+     & ~\times\prod_{\substack{m=1\\m\neq n}}^N \int_{-\infty}^\infty\mathrm{d}x_m P\left(x_n+\ln p_n\geq x_m+\ln p_m\middle|x_n,x_m\right) P\left(x_m\right).\label{eq:expanded_integral}
+\end{align}
+
+Now that we have fully expanded the integrand in \cref{eq:full_integral}, we are ready to proceed by specifying the mathematical form of each integrand of \cref{eq:expanded_integral}. For each $m=1,2,\dots,N$, the event of $x_n+\ln p_n\geq x_m+\ln p_m$ is a true-or-false question, so $P\left(x_n+\ln p_n\geq x_m+\ln p_m\middle|x_n,x_m\right)$ can only take 1 or 0 as its value. Therefore, we can express it in terms of \href{https://en.wikipedia.org/wiki/Heaviside_step_function}{the Heaviside step function}:
+\begin{equation}
+    P\left(x_n+\ln p_n\geq x_m+\ln p_m\middle|x_n,x_m\right)=H(x_n+\ln p_n-x_m-\ln p_m).
+\end{equation}
+Note that $P\left(x_n+\ln p_n\geq x_n+\ln p_n\middle|x_n\right)$ is always equal to 1. Moreover, as $x_m$'s are independently sampled from the standard Gumbel distribution, by definition,
+\begin{equation}
+    P\left(x_m\right)=f\left(x_m\right).
+\end{equation}
+
+Consequently, for any $m\neq n$,
+\begin{align}
+     & \int_{-\infty}^\infty\mathrm{d}x_m P\left(x_n+\ln p_n\geq x_m+\ln p_m\middle|x_n,x_m\right) P\left(x_m\right)\nonumber \\
+     & =\int_{-\infty}^\infty\mathrm{d}x_m H(x_n+\ln p_n-x_m-\ln p_m) f\left(x_m\right)
+    =\int_{-\infty}^{x_n+\ln p_n-\ln p_m}\mathrm{d}x_m f\left(x_m\right)\nonumber                                             \\
+     & =F\left(x\right)\Big|_{-\infty}^{x_n+\ln p_n-\ln p_m}=\exp\left[-\exp\left(-x_n-\ln p_n+\ln p_m\right)\right]\nonumber \\
+     & =\exp\left[-\frac{p_m}{p_n}\exp\left(-x_n\right)\right].
+\end{align}
+It follows that
+\begin{align}
+    \prod_{\substack{m=1 \\m\neq n}}^N\int_{-\infty}^\infty\mathrm{d}x_m P\left(x_n+\ln p_n\geq x_m+\ln p_m\middle|x_n,x_m\right) P\left(x_m\right)
+    =\exp\left[-\frac{\sum_{m=1,m\neq n}^N p_m}{p_n}\exp\left(-x_n\right)\right]
+\end{align}
+Therefore,
+\begin{align}
+    P\left(n=\argmax_m\left(x_m+\ln p_m\right)\right)
+     & =\int_{-\infty}^\infty\mathrm{d}x_n f\left(x_n\right) \exp\left[-\frac{\sum_{m=1,m\neq n}^N p_m}{p_n}\exp\left(-x_n\right)\right]\nonumber                           \\
+     & =\int_{-\infty}^\infty\mathrm{d}x_n \exp\left(-x_n\right) \exp\left[-\exp\left(-x_n\right)-\frac{\sum_{m=1,m\neq n}^N p_m}{p_n}\exp\left(-x_n\right)\right]\nonumber \\
+     & =\int_{-\infty}^\infty\mathrm{d}x_n \exp\left(-x_n\right) \exp\left[-\frac{\sum_{m=1}^N p_m}{p_n}\exp\left(-x_n\right)\right].
+\end{align}
+At first this integral may seem intimidating, however, it can be evaluated through the simple substitution of $u=\exp\left(-x_n\right)$, and the final result is what we are looking for:
+\begin{align}
+     & P\left(n=\argmax_m\left(x_m+\ln p_m\right)\right)=\int_0^\infty\mathrm{d}u \exp\left(-\frac{\sum_{m=1}^N p_m}{p_n}u\right)=\frac{p_n}{\sum_{m=1}^N p_m}.\label{eq:result}
+\end{align}
+
+\end{document}
