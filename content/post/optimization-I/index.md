@@ -1,19 +1,25 @@
 ---
 title: Optimization Techniques in Scientific Computing (Part I)
 date: '2023-07-28'
+lastmod: '2024-03-14'
 summary: Simple optimization techniques
+authors:
+  - admin
+tags:
+  - Julia
+  - Optimization
+categories:
+  - Julia
+  - Tutorial
 ---
 
-# Optimization Techniques in Scientific Computing (Part I)
-
-- [Optimization Techniques in Scientific Computing (Part I)](#optimization-techniques-in-scientific-computing-part-i)
-  - [Introduction](#introduction)
-  - [Description of the problem](#description-of-the-problem)
-  - [A naive implementation](#a-naive-implementation)
-  - [Optimization ideas](#optimization-ideas)
-    - [Follow memory layout](#follow-memory-layout)
-    - [Reduce memory allocation](#reduce-memory-allocation)
-    - [Vectorization](#vectorization)
+- [Introduction](#introduction)
+- [Description of the problem](#description-of-the-problem)
+- [A naive implementation](#a-naive-implementation)
+- [Optimization ideas](#optimization-ideas)
+  - [Follow memory layout](#follow-memory-layout)
+  - [Reduce memory allocation](#reduce-memory-allocation)
+  - [Vectorization](#vectorization)
 
 ## Introduction
 
@@ -46,7 +52,7 @@ Simulating a single-molecule image involves converting point emitters into their
 Since providing an accurate and detailed simulation process is beyond the scope of this blog, we will make the following approximations:
 
 - The pixel size is so small that the impact of pixelization can be considered negligible.
-- The PSF is a 2D Gaussian. In other words, for a molecule located at coordinates $(x_n, y_n)$, its influence on the pixel at $(x^p_i, y^p_j)$ is determined by $$PSF_{ijn}=\exp[-(x^p_i-x_n)^2-(y^p_j-y_n)^2]$$ where $n$ represents the molecule index, and $i$ and $j$ denote the pixel indices.
+- The PSF is a 2D Gaussian. In other words, for a molecule located at coordinates {{< math >}}$(x_n, y_n)${{< math >}}, its influence on the pixel at $(x^p_i, y^p_j)$ is determined by {{< math >}}$$PSF_{ijn}=\exp[-(x^p_i-x_n)^2-(y^p_j-y_n)^2]$${{< math >}} where $n$ represents the molecule index, and $i$ and $j$ denote the pixel indices.
 
 ## A naive implementation
 
