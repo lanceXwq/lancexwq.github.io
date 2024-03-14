@@ -125,7 +125,7 @@ Vectorization is arguably the most crucial technique discussed in this blog. Its
 
 Vectorizing an algorithm is a simple concept, but recognizing the opportunity for implementing vectorization is often more crucial. Based on my personal experience, vectorization should at least be attempted whenever for-loops are involved.
 
-As a specific example, I will describe the thought process regarding my problem, which currently have three for-loops. First, from [this section](#description-of-the-problem), we know the final image, denoted as \(i\), is obtained through \[I_{ij}=\sum_n PSF_{ijn}\], but we can also write \[PSF_{ijn}=PSF^x_{in}PSF^y_{nj}\] where \[PSF^x_{in}=\exp[-(x^p_i-x_n)^2]~\text{and}~PSF^y_{nj}=\exp[-(y^p_j-y_n)^2]\]. Therefore, we have \[I_{ij}=\sum_n PSF^x_{in}PSF^y_{nj}\]. 
+As a specific example, I will describe the thought process regarding my problem, which currently have three for-loops. First, from [this section](#description-of-the-problem), we know the final image, denoted as \(i\), is obtained through \[I_{ij}=\sum_n PSF_{ijn},\] but we can also write \[PSF_{ijn}=PSF^x_{in}PSF^y_{nj}\] where \[PSF^x_{in}=\exp[-(x^p_i-x_n)^2]~\text{and}~PSF^y_{nj}=\exp[-(y^p_j-y_n)^2].\] Therefore, we have \[I_{ij}=\sum_n PSF^x_{in}PSF^y_{nj}.\] 
 
 After this brief re-organization of math, we have arrived at an expression that highly resembles matrix multiplication! Now it is quite clear how we are going to proceed:
 
