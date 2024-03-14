@@ -235,7 +235,7 @@ sections:
       title: Contact
       subtitle:
       text: |-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam mi diam, venenatis ut magna et, vehicula efficitur enim.
+        Please feel free to reach out!
       # Contact (add or remove contact options as necessary)
       email: weiqing1@asu.edu
       phone: (480)249-8316
@@ -256,10 +256,6 @@ sections:
         latitude: '33.421213587874355'
         longitude: '-111.93136457458334'  
       contact_links:
-        - icon: twitter
-          icon_pack: fab
-          name: DM Me
-          link: 'https://twitter.com/Twitter'
         - icon: video
           icon_pack: fas
           name: Zoom Me
