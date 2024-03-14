@@ -36,7 +36,7 @@ Despite the remarkable progress in modern programming languages and numerical to
 
 To tackle these concerns, this blog post aims to offer a concise overview of various general and highly effective optimization techniques that are relatively straightforward to implement. The focus will be on a problem I encountered during my research on single-molecule imaging. I will begin with a naive version of my code and gradually enhance its performance.
 
-:exclamation: All my codes below are provided in terms of an interactive notebook at [my GitHub](https://github.com/lanceXwq/lancexwq.github.io/tree/main/content/post/optimization-I).
+:exclamation: All my codes below are provided in terms of an interactive notebook at [my GitHub](https://github.com/lanceXwq/lancexwq.github.io/tree/main/content/post/optimization-I/scripts).
 
 ## Description of the problem
 
