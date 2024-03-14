@@ -36,7 +36,7 @@ Despite the remarkable progress in modern programming languages and numerical to
 
 To tackle these concerns, this blog post aims to offer a concise overview of various general and highly effective optimization techniques that are relatively straightforward to implement. The focus will be on a problem I encountered during my research on single-molecule imaging. I will begin with a naive version of my code and gradually enhance its performance.
 
-:exclamation: All my codes below are provided in terms of an interactive notebook at [my GitHub](https://github.com/lanceXwq/BlogPostFiles/tree/main/230728%20Code%20Optimization%20I).
+:exclamation: All my codes below are provided in terms of an interactive notebook at [my GitHub](https://github.com/lanceXwq/lancexwq.github.io/tree/main/content/post/optimization-I).
 
 ## Description of the problem
 
@@ -54,11 +54,11 @@ Simulating a single-molecule image involves converting point emitters into their
 Since providing an accurate and detailed simulation process is beyond the scope of this blog, we will make the following approximations:
 
 - The pixel size is so small that the impact of pixelization can be considered negligible.
-- The PSF is a 2D Gaussian. In other words, for a molecule located at coordinates \((x_n, y_n)\), its influence on the pixel at $(x^p_i, y^p_j)$ is determined by \[PSF_{ijn}=\exp[-(x^p_i-x_n)^2-(y^p_j-y_n)^2]\] where $n$ represents the molecule index, and $i$ and $j$ denote the pixel indices.
+- The PSF is a 2D Gaussian. In other words, for a molecule located at coordinates \((x_n, y_n)\), its influence on the pixel at \((x^p_i, y^p_j)\) is determined by \[PSF_{ijn}=\exp[-(x^p_i-x_n)^2-(y^p_j-y_n)^2]\] where \(n\) represents the molecule index, and \(i\) and \(j\) denote the pixel indices.
 
 ## A naive implementation
 
-Now, let's move forward with writing a straightforward simulation code. To accomplish this, I will utilize [Julia](https://julialang.org/) as the preferred programming language. As mentioned previously, we need to compute the PSF value for every $n$, $i$, and $j$. Translating this sentence into code results in the following:
+Now, let's move forward with writing a straightforward simulation code. To accomplish this, I will utilize [Julia](https://julialang.org/) as the preferred programming language. As mentioned previously, we need to compute the PSF value for every \(n\), \(i\), and \(j\). Translating this sentence into code results in the following:
 
 ```julia
 function image_sim_v1(xᵖ, yᵖ, x, y)
@@ -70,7 +70,7 @@ function image_sim_v1(xᵖ, yᵖ, x, y)
 end
 ```
 
-For a test case with 20 emitting molecules in a 256$\times$256 image, this short function does get the job done (see the image below). Conduct a brief benchmark on this function yields `13.827 ms (7 allocations: 10.50 MiB)`.
+For a test case with 20 emitting molecules in a 256\(\times\)256 image, this short function does get the job done (see the image below). Conduct a brief benchmark on this function yields `13.827 ms (7 allocations: 10.50 MiB)`.
 
 <p align="center" height="100%">
     <img src="fig2.png">
@@ -125,12 +125,12 @@ Vectorization is arguably the most crucial technique discussed in this blog. Its
 
 Vectorizing an algorithm is a simple concept, but recognizing the opportunity for implementing vectorization is often more crucial. Based on my personal experience, vectorization should at least be attempted whenever for-loops are involved.
 
-As a specific example, I will describe the thought process regarding my problem, which currently have three for-loops. First, from [this section](#description-of-the-problem), we know the final image, denoted as $I$, is obtained through $$I_{ij}=\sum_n PSF_{ijn},$$ but we can also write $$PSF_{ijn}=PSF^x_{in}PSF^y_{nj}$$ where $$PSF^x_{in}=\exp[-(x^p_i-x_n)^2]~\text{and}~PSF^y_{nj}=\exp[-(y^p_j-y_n)^2].$$ Therefore, we have $$I_{ij}=\sum_n PSF^x_{in}PSF^y_{nj}.$$ 
+As a specific example, I will describe the thought process regarding my problem, which currently have three for-loops. First, from [this section](#description-of-the-problem), we know the final image, denoted as \(i\), is obtained through \[I_{ij}=\sum_n PSF_{ijn}\], but we can also write \[PSF_{ijn}=PSF^x_{in}PSF^y_{nj}\] where \[PSF^x_{in}=\exp[-(x^p_i-x_n)^2]~\text{and}~PSF^y_{nj}=\exp[-(y^p_j-y_n)^2]\]. Therefore, we have \[I_{ij}=\sum_n PSF^x_{in}PSF^y_{nj}\]. 
 
 After this brief re-organization of math, we have arrived at an expression that highly resembles matrix multiplication! Now it is quite clear how we are going to proceed:
 
-1. Construct two matrices, $PSF^x$ and $PSF^y$, with array subtraction[^1], element-wise square, and element-wise exponential.
-2. Perform a matrix multiplication between $PSF^x$ and $PSF^y$.
+1. Construct two matrices, \(PSF^x\) and \(PSF^y\), with array subtraction[^1], element-wise square, and element-wise exponential.
+2. Perform a matrix multiplication between \(PSF^x\) and \(PSF^y\).
 [^1]: Refer to [this webpage](https://www.mathworks.com/help/matlab/matlab_prog/compatible-array-sizes-for-basic-operations.html) for compatible array sizes regarding array subtraction and more.
 
 <p align="center" height="100%">
