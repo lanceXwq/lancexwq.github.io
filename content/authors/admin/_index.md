@@ -1,9 +1,9 @@
 ---
 # Display name
-title: Lance W.Q. Xu
+title: Lance W.Q. Xu (徐伟青)
 
 # Name pronunciation (optional)
-name_pronunciation: 徐伟青
+name_pronunciation: ''
 
 # Full name (for SEO)
 first_name: Weiqing
@@ -22,7 +22,7 @@ role: Ph.D. student in biophysics
 # Organizations/Affiliations to show in About widget
 organizations:
   - name: Arizona State University
-    url: https://www.stanford.edu/
+    url: https://www.asu.edu/
 
 # Short bio (displayed in user profile at end of posts)
 bio: My research interests include distributed robotics, mobile computing and programmable matter.
