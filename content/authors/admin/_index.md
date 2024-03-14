@@ -1,9 +1,9 @@
 ---
 # Display name
-title: 徐伟青
+title: Lance W.Q. Xu
 
 # Name pronunciation (optional)
-name_pronunciation: Lance (Weiqing) Xu
+name_pronunciation: 徐伟青
 
 # Full name (for SEO)
 first_name: Weiqing
