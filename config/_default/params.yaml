@@ -45,7 +45,7 @@ header:
 
 footer:
   copyright:
-    notice: "© {year} Me. This work is licensed under {license}"
+    notice: "© {year} Lance W.Q. Xu. This work is licensed under {license}"
     license:
       enable: true
       allow_derivatives: false
@@ -64,13 +64,14 @@ locale:
 features:
   syntax_highlighter:
     theme_light: github-light
-    theme_dark: dracula
+    # theme_dark: dracula
+    theme_dark: solarized-dark
   math:
     enable: false
   privacy_pack:
     enable: false
   repository:
-    url: "https://github.com/<username>/<repository>"
+    url: "https://github.com/lanceXwq/lancexwq.github.io"
     content_dir: content
     branch: main
   avatar:
