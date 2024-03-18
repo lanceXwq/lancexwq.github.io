@@ -32,9 +32,7 @@ To quickly recap, the previous example involves calculating the total contributi
 
 ## The first implementation
 
-<p align="center" height="100%">
-    <img src="fig_loop.png">
-</p>
+![Calculate PSFs in a loop.](fig_loop.png "Calculate PSFs in a loop")
 
 Based on the description so far, we can readily enclose a for-loop iterating over \(f\) around the previously optimized code to create the initial version of our single-molecule video simulation code[^1]:
 
@@ -129,9 +127,7 @@ With the concept of multithreading in mind, we can easily comprehend multiproces
 
 ### Key consideration
 
-<p align="center" height="100%">
-    <img src="fig1.png">
-</p>
+![Communication overhead vs. computational cost.](fig1.png "Communication overhead vs. computational cost")
 
 While I aimed to maintain a surface-level discourse in my blog, it is totally reasonable to feel confused when deciding upon a parallelization scheme. :smile: The crucial factor to bear in mind is that an escalation in the number of processors engaged directly corresponds to an increase in communication overhead. This rise in overhead can potentially overshadow the performance benefits gained from task distribution.
 

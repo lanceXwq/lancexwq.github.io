@@ -87,9 +87,7 @@ You may expect magic to happen but a warning (or sometimes an error) pops up reg
 
 As stated multiple times thus far, our problem does not align directly with any basic vector operation. However, we can be clever and slightly restructure our data, enabling the potential for vectorization. An approach to achieve this is illustrated in the following figure.
 
-<p align="center" height="100%">
-    <img src="fig1.png">
-</p>
+![Block diagonal matrix multiplication to calculate PSF.](fig1.png "Block diagonal matrix multiplication")
 
 Here, \(PSF^x\), \(PSF^y\), and \(V\) are restructured as block-diagonal matrices. Blocks sharing the same color correspond to the same frame, while any remaining elements within these matrices are set to zero, visually represented as white-colored sections. As a result, all the frames can be simulated through one matrix multiplication.
 
@@ -99,9 +97,7 @@ Are there better solutions? The answer is yes. This problem we are facing, namel
 
 ### Batch matrix multiplication
 
-<p align="center" height="100%">
-    <img src="fig2.png">
-</p>
+![Batched matrix multiplication to calculate PSF.](fig2.png "Batched matrix multiplication")
 
 Although batch matrix multiplication is widely recognized and efficiently implemented, it may not always be easy to find the correct function within your programming language. Occasionally, batch matrix multiplication goes by different names. For instance, in MATLAB, it is referred to as "[page-wise matrix multiplication](https://www.mathworks.com/help/matlab/ref/pagemtimes.html)". In certain cases, additional packages are required, and quite often, these packages belong deep-learning libraries! In Python, you can call `torch.bmm` from [PyTorch](https://pytorch.org/docs/stable/generated/torch.bmm.html), while Julia offers `batched_mul` through [Flux.jl](https://fluxml.ai/Flux.jl/stable/models/nnlib/#NNlib.batched_mul). Using `batched_mul`, we can write a new code as follows:
 

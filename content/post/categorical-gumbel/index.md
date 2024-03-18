@@ -34,9 +34,7 @@ Categorical distribution is probably the most common probability distribution, f
 
 Working with categorical distributions, there is often need to simulate their outcomes, or more precisely, to sample from these distributions. The most fundamental and straightforward sampling scheme for a categorical distribution is known as "stick-breaking", as illustrated in the figure below.
 
-<p align="center" height="100%">
-    <img src="stick-breaking.png">
-</p>
+![Stick breaking algorithm.](stick-breaking.png "Stick breaking algorithm")
 
 To understand stick-breaking with this figure, consider the event of breaking a one-unit-length stick. Here, the stick is partitioned into discrete regions, each uniquely colored. Our objective is to select a specific location to break the stick, essentially determining the outcome of this event. Assuming an unbiased selection process, the probability of breaking the stick within a particular region precisely corresponds to the size of that region, regardless how all regions are arranged.
 
@@ -113,7 +111,7 @@ The first outcome is how easy it is to sample from the standard Gumbel distribut
 
 ### The Gumbel-Max trick
 
-Now, consider having a target categorical distribution with \(N\) unnormalized logarithmic event probabilities represented as \(\ln p_1,\ln p_2,\dots,\ln p_N\). Using the algorithm outlined earlier, we can effortlessly generate an equivalent number of independent and identically distributed random variables following the standard Gumbel distribution: \(x_1,x_2,\ldots,x_N\). Interestingly, when we compute the probability of \(n\) being the index that maximizes the expression \(x_n + \ln p_n\), it turns out to be precisely \(p_n/\sum_{n=1}^N p_n\). This indicates that \(x_n + \ln p_n\) itself is a random variable that precisely follows the target categorical distribution, and no calculation is done in the real space!
+Now, consider having a target categorical distribution with \(N\) unnormalized logarithmic event probabilities represented as \(\ln p_1, \ln p_2, \dots, \ln p_N\). Using the algorithm outlined earlier, we can effortlessly generate an equivalent number of independent and identically distributed random variables following the standard Gumbel distribution: \(x_1, x_2 \ldots, x_N\). Interestingly, when we compute the probability of \(n\) being the index that maximizes the expression \(x_n + \ln p_n\), it turns out to be precisely \(p_n/\sum_{n=1}^N p_n\). This indicates that \(x_n + \ln p_n\) itself is a random variable that precisely follows the target categorical distribution, and no calculation is done in the real space!
 
 This result is often referred to as the "Gumbel-Max trick". Although I provide the full derivation in [this document](https://github.com/lanceXwq/lancexwq.github.io/tree/main/content/post/categorical-gumbel/derivation.pdf), deriving this result by yourself is highly recommended. Implementing this trick in Julia can be done as:
 
