@@ -9,3 +9,6 @@ jsconfig.json
 node_modules/
 go.sum
 .hugo_build.lock
+
+# MacOS
+.DS_Store
