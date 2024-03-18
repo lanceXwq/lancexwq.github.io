@@ -121,12 +121,13 @@ Vectorization is arguably the most crucial technique discussed in this blog. Its
 
 Vectorizing an algorithm is a simple concept, but recognizing the opportunity for implementing vectorization is often more crucial. Based on my personal experience, vectorization should at least be attempted whenever for-loops are involved.
 
-As a specific example, I will describe the thought process regarding my problem, which currently have three for-loops. First, from [this section](#description-of-the-problem), we know the final image, denoted as \(i\), is obtained through \[I_{ij}=\sum_n PSF_{ijn},\] but we can also write \[PSF_{ijn}=PSF^x_{in}PSF^y_{nj}\] where \[PSF^x_{in}=\exp[-(x^p_i-x_n)^2]~\text{and}~PSF^y_{nj}=\exp[-(y^p_j-y_n)^2].\] Therefore, we have \[I_{ij}=\sum_n PSF^x_{in}PSF^y_{nj}.\] 
+As a specific example, I will describe the thought process regarding my problem, which currently have three for-loops. First, from [this section](#description-of-the-problem), we know the final image, denoted as \(i\), is obtained through \[I_{ij}=\sum_n PSF_{ijn},\] but we can also write \[PSF_{ijn}=PSF^x_{in}PSF^y_{nj}\] where \[PSF^x_{in}=\exp[-(x^p_i-x_n)^2]~\text{and}~PSF^y_{nj}=\exp[-(y^p_j-y_n)^2].\] Therefore, we have \[I_{ij}=\sum_n PSF^x_{in}PSF^y_{nj}.\]
 
 After this brief re-organization of math, we have arrived at an expression that highly resembles matrix multiplication! Now it is quite clear how we are going to proceed:
 
 1. Construct two matrices, \(PSF^x\) and \(PSF^y\), with array subtraction[^1], element-wise square, and element-wise exponential.
 2. Perform a matrix multiplication between \(PSF^x\) and \(PSF^y\).
+
 [^1]: Refer to [this webpage](https://www.mathworks.com/help/matlab/matlab_prog/compatible-array-sizes-for-basic-operations.html) for compatible array sizes regarding array subtraction and more.
 
 ![A simple vectorization scheme.](fig_vec.png "Vectorized PSF calculation")
@@ -144,4 +145,4 @@ end
 `image_sim_v4`'s benchmark recorded `101.157 μs (14 allocations: 752.33 KiB)`, 80x faster than `image_sim_v3`!
 
 At this stage, we have essentially reached the limit of potential improvements for this simple example. Additional optimizations could involve the utilization of hardware-specific math libraries[^2] and datatype-specific operations, but these aspects are beyond the scope of this blog. However, this does not signal the end of our discussion, as we can introduce a slightly more complex (and realistic) example that allows us to explore more advanced optimization techniques. I will continue this discussion in my next blog post.
-[^2]: Such as Intel Math Kernel Library (MKL) and AMD Optimizing CPU Libraries (ACOL).
+[^2]: Such as Intel Math Kernel Library (MKL) and AMD Optimizing CPU Libraries (AOCL).
