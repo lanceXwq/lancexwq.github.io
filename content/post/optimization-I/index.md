@@ -45,9 +45,7 @@ In my research, which involves applications such as [super-resolution imaging](h
 - The diffraction of light causes a point object to appear as an expanded blur, often referred to as the [point spread function (PSF)](https://en.wikipedia.org/wiki/Point_spread_function).
 - In images, PSFs are pixelated because the pixel sizes of the detectors are often comparable to the width of a PSF.
 
-<p align="center" height="100%">
-    <img src="fig1.png" alt="A comparison of a point emitter, its Gaussian PSF, and the actual pixelated image.">
-</p>
+![A comparison of a point emitter, its Gaussian PSF, and the actual pixelated image.](fig1.png "Point emitter to a pixelated image")
 
 Simulating a single-molecule image involves converting point emitters into their corresponding PSFs and then pixelating the entire image. In these simulations (as well as in the corresponding experimental setups), it is often reasonable to assume that the point emitters are sufficiently far apart from each other, allowing for independent photon emissions. This means that we can calculate the PSF for each molecule individually and combine them.
 
@@ -72,9 +70,7 @@ end
 
 For a test case with 20 emitting molecules in a 256\(\times\)256 image, this short function does get the job done (see the image below). Conduct a brief benchmark on this function yields `13.827 ms (7 allocations: 10.50 MiB)`.
 
-<p align="center" height="100%">
-    <img src="fig2.png">
-</p>
+![Many point emitters to the final image.](fig2.png "Many point emitters to the final image")
 
 ## Optimization ideas
 
@@ -133,9 +129,7 @@ After this brief re-organization of math, we have arrived at an expression that 
 2. Perform a matrix multiplication between \(PSF^x\) and \(PSF^y\).
 [^1]: Refer to [this webpage](https://www.mathworks.com/help/matlab/matlab_prog/compatible-array-sizes-for-basic-operations.html) for compatible array sizes regarding array subtraction and more.
 
-<p align="center" height="100%">
-    <img src="fig_vec.png">
-</p>
+![A simple vectorization scheme.](fig_vec.png "Vectorized PSF calculation")
 
 In Julia code, we have
 
