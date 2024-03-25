@@ -25,13 +25,14 @@ organizations:
     url: https://www.asu.edu/
 
 # Short bio (displayed in user profile at end of posts)
-bio: My research interests include distributed robotics, mobile computing and programmable matter.
+bio: My research interests include physics, Bayesian inference, numerical computation, and machine learning.
 
 # Interests to show in About widget
 interests:
-  - Artificial Intelligence
-  - Computational Linguistics
-  - Information Retrieval
+  - Physics
+  - Bayesian Inference
+  - Numerical Computation
+  - Machine Learning
 
 # Education to show in About widget
 education:
